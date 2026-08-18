@@ -795,29 +795,34 @@ DASHBOARD_TEMPLATE = r"""<!doctype html>
   --font-num:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){
-  --bg:#13151A; --panel:#1A1D24; --panel2:#20242C;
-  --ink:#E9E7E2; --muted:#959AA5; --line:#2B2F38; --line-strong:#3A3F4A;
-  --accent:#C9A45C; --accent-soft:#2A2418; --on-accent:#13151A;
-  --pos:#6FBF8E; --neg:#E88379;
-  --s-strong:#6FBF8E; --s-strong-bg:#16301F;
-  --s-good:#8FBF9F;  --s-good-bg:#1B2A20;
-  --s-fair:#D9B569;  --s-fair-bg:#2E2717;
-  --s-weak:#E88379;  --s-weak-bg:#331917;
+  --bg:#0D1524; --panel:#132033; --panel2:#1A2A41;
+  --ink:#E4EBF5; --muted:#8B9BB4; --line:#22334C; --line-strong:#31465F;
+  --accent:#D2A85E; --accent-soft:#2A2418; --on-accent:#0D1524;
+  --pos:#5FCB97; --neg:#F0857C;
+  --s-strong:#5FCB97; --s-strong-bg:#10331F;
+  --s-good:#8CC7A8;  --s-good-bg:#152A22;
+  --s-fair:#E0BC6E;  --s-fair-bg:#2E2916;
+  --s-weak:#F0857C;  --s-weak-bg:#361B1C;
 }}
 :root[data-theme=dark]{
-  --bg:#13151A; --panel:#1A1D24; --panel2:#20242C;
-  --ink:#E9E7E2; --muted:#959AA5; --line:#2B2F38; --line-strong:#3A3F4A;
-  --accent:#C9A45C; --accent-soft:#2A2418; --on-accent:#13151A;
-  --pos:#6FBF8E; --neg:#E88379;
-  --s-strong:#6FBF8E; --s-strong-bg:#16301F;
-  --s-good:#8FBF9F;  --s-good-bg:#1B2A20;
-  --s-fair:#D9B569;  --s-fair-bg:#2E2717;
-  --s-weak:#E88379;  --s-weak-bg:#331917;
+  --bg:#0D1524; --panel:#132033; --panel2:#1A2A41;
+  --ink:#E4EBF5; --muted:#8B9BB4; --line:#22334C; --line-strong:#31465F;
+  --accent:#D2A85E; --accent-soft:#2A2418; --on-accent:#0D1524;
+  --pos:#5FCB97; --neg:#F0857C;
+  --s-strong:#5FCB97; --s-strong-bg:#10331F;
+  --s-good:#8CC7A8;  --s-good-bg:#152A22;
+  --s-fair:#E0BC6E;  --s-fair-bg:#2E2916;
+  --s-weak:#F0857C;  --s-weak-bg:#361B1C;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-ui);
   font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1600px;margin:0 auto;padding:34px 22px 64px}
+.wrap{max-width:1600px;margin:0 auto;padding:34px 22px 64px;position:relative}
+.themebtn{position:absolute;top:32px;right:22px;background:var(--panel);
+  color:var(--muted);border:1px solid var(--line-strong);border-radius:2px;
+  padding:6px 12px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  cursor:pointer;font-weight:600;font-family:var(--font-ui)}
+.themebtn:hover{color:var(--accent);border-color:var(--accent)}
 .eyebrow{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--accent);font-weight:600;margin-bottom:10px}
 h1{font-family:var(--font-display);font-size:clamp(28px,4vw,40px);font-weight:600;
@@ -894,6 +899,7 @@ tbody tr:hover td{background:var(--panel2)}
   border-radius:3px;padding:14px 17px;max-width:92ch}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style></head><body><div class="wrap">
+<button id="theme" class="themebtn" type="button" aria-label="Switch theme"></button>
 <div class="eyebrow">FTSE All-World &middot; VWRP</div>
 <h1>VWRP Stock Screener</h1>
 <div class="sub" id="sub"></div>
@@ -1020,6 +1026,30 @@ document.getElementById("reset").onclick=()=>{
   ["sector","region","risk"].forEach(id=>document.getElementById(id).value="");
   render();
 };
+// Theme: remembered per browser, "auto" follows the operating system.
+// localStorage throws outright in sandboxed contexts (private browsing, some
+// embedded viewers), so every access is guarded -- an unguarded one here would
+// take the whole script down and leave the page with no table at all.
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch(e){ /* not persisted */ } }
+};
+(function(){
+  const btn=document.getElementById("theme"), root=document.documentElement;
+  if(!btn) return;
+  const LABEL={auto:"Auto",light:"Light",dark:"Dark"};
+  let mode=store.get("vwrp-theme")||"auto";
+  if(!LABEL[mode]) mode="auto";
+  function apply(){
+    if(mode==="auto") root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme",mode);
+    btn.textContent=LABEL[mode];
+    store.set("vwrp-theme",mode);
+  }
+  btn.onclick=()=>{ mode = mode==="auto"?"dark":mode==="dark"?"light":"auto"; apply(); };
+  apply();
+})();
+
 const GLOSSARY = [
  ["Rank","Position in this screen, best opportunity first. It is the ranking on Opportunity score, not company size \u2014 so a small holding with strong numbers outranks a mega-cap with weak ones."],
  ["Ticker","Yahoo Finance symbol. The suffix marks the exchange: no suffix is the US, .L London, .T Tokyo, .PA Paris, .DE Germany, .HK Hong Kong, .TW Taiwan, .KS Korea, .NS India, .AX Australia, .TO Toronto, .SW Switzerland."],
