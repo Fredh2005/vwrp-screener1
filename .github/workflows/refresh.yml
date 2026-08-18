@@ -1,26 +1,49 @@
 name: Refresh screener and publish
 
-# 20:35 UTC = 21:35 UK during British Summer Time.
-# The UK switches to GMT in late October, when this becomes 20:35 local --
-# change the cron to "35 21 * * *" then if you want it to stay at 21:35.
+# GitHub's scheduler only understands UTC and ignores daylight saving, so a
+# single cron drifts by an hour when the UK clocks change. Instead we fire at
+# BOTH candidate times and let the guard job below drop the wrong one, which
+# keeps the real run at 21:35 UK all year with no seasonal edit.
 on:
   schedule:
-    - cron: "35 20 * * *"
-  workflow_dispatch:        # lets you trigger a run by hand from the Actions tab
+    - cron: "35 20 * * *"   # 21:35 UK during British Summer Time
+    - cron: "35 21 * * *"   # 21:35 UK during GMT
+  workflow_dispatch:        # manual "Run workflow" button, always proceeds
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Never let two runs publish at once; let a manual run finish rather than
-# cancelling it midway.
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
+  # Decide whether this particular firing is the 21:35 UK one.
+  guard:
+    runs-on: ubuntu-latest
+    outputs:
+      proceed: ${{ steps.check.outputs.proceed }}
+    steps:
+      - id: check
+        run: |
+          UK_HOUR=$(TZ=Europe/London date +%H)
+          echo "UK local time is now $(TZ=Europe/London date '+%Y-%m-%d %H:%M %Z')"
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "Manual run - proceeding."
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          elif [ "$UK_HOUR" = "21" ]; then
+            echo "This is the 21:35 UK firing - proceeding."
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Off-season firing (UK hour $UK_HOUR) - skipping."
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
+    needs: guard
+    if: needs.guard.outputs.proceed == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,10 +58,20 @@ jobs:
       - name: Run the screener
         run: python -W ignore screener.py --top 150 --refresh
 
+      - name: Fail if the screen came back thin
+        run: |
+          # A silent half-empty page is worse than a visible red X.
+          ROWS=$(python -c "import json,re;s=open('output/dashboard.html').read();\
+          print(len(json.loads(re.search(r'const DATA = (\{.*?\});?\n',s,re.S).group(1))['rows']))")
+          echo "rows generated: $ROWS"
+          if [ "$ROWS" -lt 100 ]; then
+            echo "::error::Only $ROWS rows generated (expected ~150) - not publishing."
+            exit 1
+          fi
+
       - name: Assemble the site
         run: |
           mkdir -p site
-          # GitHub Pages serves index.html at the root.
           cp output/dashboard.html site/index.html
           cp output/vwrp_screen_*.xlsx site/ 2>/dev/null || true
           ls -la site/
