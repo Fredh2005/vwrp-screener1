@@ -1,0 +1,4 @@
+Last automated activity: 2026-08-18 22:10 UTC
+
+This file exists only to keep the repository active so GitHub
+does not disable the nightly screener build. Nothing reads it.
