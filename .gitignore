@@ -7,3 +7,8 @@ output/*.xlsx
 __pycache__/
 *.pyc
 .DS_Store
+
+# Generated each run - GitHub rebuilds its own copy, so tracking these
+# only creates noise in the diff.
+output/dashboard.html
+output/artifact.html
