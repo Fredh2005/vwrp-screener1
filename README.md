@@ -5,7 +5,8 @@ on valuation, balance-sheet health, revenue growth and risk.
 
 ## Your web address
 
-**<http://localhost:8765>** — always on, no command needed.
+**<http://localhost:8765>** on this Mac — always on, no command needed.
+**<http://192.168.1.116:8765>** from your phone or tablet on the same network.
 
 A launch agent (`com.vwrp.server`) starts the server at login and restarts it if
 it ever dies, so the address works whenever your Mac is awake. The page shows
@@ -25,8 +26,11 @@ launchctl unload ~/Library/LaunchAgents/com.vwrp.server.plist
 launchctl unload ~/Library/LaunchAgents/com.vwrp.screener.plist
 ```
 
-This address is local to your Mac — it is not reachable from other devices or
-the internet. For your phone on the same wifi, see `--lan` below.
+The server listens on your local network so other devices you own can reach it.
+It is not exposed to the internet, but anyone else on the same network could
+open it — fine at home, worth thinking about on public or shared wifi. To go
+back to this-Mac-only, remove the `--lan` line from
+`~/Library/LaunchAgents/com.vwrp.server.plist` and reload the agent.
 
 ## Run it as an app
 

@@ -1128,7 +1128,7 @@ async function pollQuotes(){
     // else -- a shared claude.ai link, a saved file -- it is a fixed snapshot,
     // and must not claim otherwise.
     const host = location.hostname;
-    const isLocal = ["localhost","127.0.0.1"].includes(host);
+    const isLocal = isLocalHost(host);
     const rebuilds = host.endsWith(".github.io");
     setLive("", isLocal
       ? `Live prices unavailable right now — showing prices as of ${meta.generated}.`
@@ -1156,9 +1156,15 @@ if(location.protocol.startsWith("http")){
 }
 
 // The refresh endpoint only exists when the page is served by serve.py.
-// Refresh re-runs the screener through serve.py, so it only exists locally.
+// Refresh re-runs the screener through serve.py, so it exists only where that
+// server is reachable: this machine, or another device on the same network.
 // On the published site the button would just fail for every visitor.
-if(["localhost","127.0.0.1"].includes(location.hostname)){
+function isLocalHost(h){
+  return h === "localhost" || h === "127.0.0.1" ||
+         /^192\.168\./.test(h) || /^10\./.test(h) ||
+         /^172\.(1[6-9]|2\d|3[01])\./.test(h);
+}
+if(isLocalHost(location.hostname)){
   const wrap=document.getElementById("refreshwrap"); wrap.hidden=false;
   const btn=document.getElementById("refresh");
   btn.onclick=async()=>{
