@@ -1,0 +1,624 @@
+# VWRP holdings, from Vanguard's export of 18 Aug 2026 (data as at 31 Jul 2026).
+# Trimmed to the 616 holdings that could plausibly reach the top 150
+# within a year: the 150th carries 0.1100%, and everything here is above
+# 0.0275%, i.e. within a 4x move of that cutoff. 81.9% of the fund.
+# Holdings below need 5x-35x growth, so fetching them nightly buys nothing.
+#
+# vanguard_weight is the fund's REAL published weight, not an estimate.
+ticker,region,vanguard_weight,name
+NVDA,US,4.443000,NVIDIA Corp
+AAPL,US,4.234600,Apple Inc
+MSFT,US,3.270700,Microsoft Corp
+AMZN,US,2.498400,Amazon.com Inc
+GOOGL,US,1.991100,Alphabet Inc
+2330.TW,TW,1.728200,Taiwan Semiconductor Manufacturing Co Ltd
+AVGO,US,1.718200,Broadcom Inc
+GOOG,US,1.584900,Alphabet Inc
+META,US,1.160600,Meta Platforms Inc
+JPM,US,0.889000,JPMorgan Chase & Co
+MU,US,0.880500,Micron Technology Inc
+LLY,US,0.868800,Eli Lilly & Co
+TSLA,US,0.862400,Tesla Inc
+005930.KS,KR,0.808800,Samsung Electronics Co Ltd
+AMD,US,0.735000,Advanced Micro Devices Inc
+BRK-B,US,0.729200,Berkshire Hathaway Inc
+000660.KS,KR,0.631200,SK hynix Inc
+XOM,US,0.611500,ExxonMobil Holdings Corp
+ASML.AS,NL,0.606100,ASML Holding NV
+JNJ,US,0.581600,Johnson & Johnson
+V,US,0.574800,Visa Inc
+WMT,US,0.461100,Walmart Inc
+MA,US,0.435700,Mastercard Inc
+CSCO,US,0.435400,Cisco Systems Inc
+ABBV,US,0.421200,AbbVie Inc
+COST,US,0.398700,Costco Wholesale Corp
+BAC,US,0.385600,Bank of America Corp
+AMAT,US,0.383100,Applied Materials Inc
+INTC,US,0.375100,Intel Corp
+0700.HK,HK,0.360900,Tencent Holdings Ltd
+UNH,US,0.354800,UnitedHealth Group Inc
+GE,US,0.353200,General Electric Co
+CAT,US,0.352600,Caterpillar Inc
+LRCX,US,0.348400,Lam Research Corp
+CVX,US,0.343800,Chevron Corp
+HSBA.L,GB,0.343600,HSBC Holdings PLC
+KO,US,0.319500,Coca-Cola Co/The
+PG,US,0.318800,Procter & Gamble Co/The
+HD,US,0.313600,Home Depot Inc/The
+MRK,US,0.305900,Merck & Co Inc
+NFLX,US,0.285900,Netflix Inc
+ROP.SW,CH,0.285300,Roche Holding AG
+PM,US,0.282000,Philip Morris International Inc
+NOVN.SW,CH,0.279200,Novartis AG
+RTX,US,0.271800,RTX Corp
+RY.TO,CA,0.269500,Royal Bank of Canada
+9988.HK,HK,0.262400,Alibaba Group Holding Ltd
+PLTR,US,0.258800,Palantir Technologies Inc
+GEV,US,0.254000,GE Vernova Inc
+PANW,US,0.253500,Palo Alto Networks Inc
+WFC,US,0.250200,Wells Fargo & Co
+NESN.SW,CH,0.242700,Nestle SA
+AZN.L,GB,0.241900,AstraZeneca PLC
+SHEL.L,GB,0.241100,Shell PLC
+TXN,US,0.237300,Texas Instruments Inc
+8306.T,JP,0.234300,Mitsubishi UFJ Financial Group Inc
+KLAC,US,0.228100,KLA Corp
+SIE.DE,DE,0.224400,Siemens AG
+MS,US,0.222500,Morgan Stanley
+ORCL,US,0.211500,Oracle Corp
+GS,US,0.210600,Goldman Sachs Group Inc/The
+LIN,US,0.208700,Linde PLC
+TMO,US,0.204400,Thermo Fisher Scientific Inc
+BHP.AX,AU,0.201300,BHP Group Ltd
+IBM,US,0.199800,International Business Machines Corp
+AMGN,US,0.197300,Amgen Inc
+CBA.AX,AU,0.197200,Commonwealth Bank of Australia
+SAN.MC,ES,0.197200,Banco Santander SA
+7203.T,JP,0.191500,Toyota Motor Corp
+TD.TO,CA,0.189400,Toronto-Dominion Bank/The
+VZ,US,0.186800,Verizon Communications Inc
+APH,US,0.186400,Amphenol Corp
+STX,US,0.181900,Seagate Technology Holdings PLC
+CRWD,US,0.180300,Crowdstrike Holdings Inc
+MCD,US,0.179800,McDonald's Corp
+PEP,US,0.179700,PepsiCo Inc
+ANET,US,0.176900,Arista Networks Inc
+WDC,US,0.176000,Western Digital Corp
+SAP.DE,DE,0.175700,SAP SE
+ALV.DE,DE,0.175700,Allianz SE
+ABT,US,0.173300,Abbott Laboratories
+NEE,US,0.172300,NextEra Energy Inc
+SU.PA,FR,0.172200,Schneider Electric SE
+AXP,US,0.171700,American Express Co
+ADI,US,0.171000,Analog Devices Inc
+SNDK,US,0.167300,Sandisk Corp
+C,US,0.166200,Citigroup Inc
+SCHW,US,0.164400,Charles Schwab Corp/The
+TJX,US,0.163800,TJX Cos Inc/The
+UNP,US,0.163700,Union Pacific Corp
+DIS,US,0.162800,Walt Disney Co/The
+TTE.PA,FR,0.158800,TotalEnergies SE
+RR.L,GB,0.157400,Rolls-Royce Holdings PLC
+BLK,US,0.157300,BlackRock Funding Inc/DE
+BRK-A,US,0.156100,Berkshire Hathaway Inc
+WELL,US,0.156000,Welltower Inc
+BA,US,0.155100,Boeing Co/The
+ETN,US,0.155100,Eaton Corp PLC
+GILD,US,0.155000,Gilead Sciences Inc
+8035.T,JP,0.154400,Tokyo Electron Ltd
+MRVL,US,0.154000,Marvell Technology Inc
+UBSG.SW,CH,0.153900,UBS Group AG
+BBVA.MC,ES,0.150800,Banco Bilbao Vizcaya Argentaria SA
+T,US,0.150100,AT&T Inc
+2454.TW,TW,0.150000,MediaTek Inc
+8316.T,JP,0.149800,Sumitomo Mitsui Financial Group Inc
+IBE.MC,ES,0.149800,Iberdrola SA
+QCOM,US,0.148300,QUALCOMM Inc
+ABBN.SW,CH,0.145200,ABB Ltd
+CRM,US,0.144000,Salesforce Inc
+BKNG,US,0.143300,Booking Holdings Inc
+NOVO-B.CO,DK,0.143300,Novo Nordisk A/S
+6857.T,JP,0.142000,Advantest Corp
+COP,US,0.140700,ConocoPhillips
+6501.T,JP,0.137900,Hitachi Ltd
+DE,US,0.136600,Deere & Co
+6758.T,JP,0.134500,Sony Group Corp
+PFE,US,0.134300,Pfizer Inc
+UCG.MI,IT,0.132800,UniCredit SpA
+UBER,US,0.130800,Uber Technologies Inc
+AIR.PA,FR,0.130300,Airbus SE
+SAF.PA,FR,0.128900,Safran SA
+SHOP.TO,CA,0.128100,Shopify Inc
+MC.PA,FR,0.128000,LVMH Moet Hennessy Louis Vuitton SE
+BMY,US,0.126800,Bristol-Myers Squibb Co
+PLD,US,0.126700,Prologis Inc
+CVS,US,0.126000,CVS Health Corp
+ULVR.L,GB,0.125300,Unilever PLC
+COF,US,0.121200,Capital One Financial Corp
+ENR.DE,DE,0.120800,Siemens Energy AG
+BMO.TO,CA,0.119800,Bank of Montreal
+CFR.SW,CH,0.119400,Cie Financiere Richemont SA
+BATS.L,GB,0.119300,British American Tobacco PLC
+9984.T,JP,0.119000,SoftBank Group Corp
+BNP.PA,FR,0.118700,BNP Paribas SA
+PGR,US,0.118100,Progressive Corp/The
+SPGI,US,0.117200,S&P Global Inc
+ISRG,US,0.117100,Intuitive Surgical Inc
+DELL,US,0.116800,Dell Technologies Inc
+PH,US,0.116600,Parker-Hannifin Corp
+8411.T,JP,0.115900,Mizuho Financial Group Inc
+DHR,US,0.114200,Danaher Corp
+VRTX,US,0.114100,Vertex Pharmaceuticals Inc
+CB,US,0.114000,Chubb Ltd
+SBUX,US,0.113800,Starbucks Corp
+BP.L,GB,0.112100,BP PLC
+LMT,US,0.112000,Lockheed Martin Corp
+LOW,US,0.111900,Lowe's Cos Inc
+NOW,US,0.110600,ServiceNow Inc
+ENB.TO,CA,0.110000,Enbridge Inc
+ISP.MI,IT,0.108500,Intesa Sanpaolo SpA
+MO,US,0.107300,Altria Group Inc
+SYK,US,0.106700,Stryker Corp
+D05.SI,SG,0.106300,DBS Group Holdings Ltd
+ZURN.SW,CH,0.105600,Zurich Insurance Group AG
+HWM,US,0.105600,Howmet Aerospace Inc
+GLW,US,0.103700,Corning Inc
+CM.TO,CA,0.103200,Canadian Imperial Bank of Commerce
+MDT,US,0.102800,Medtronic PLC
+005935.KS,KR,0.102400,Samsung Electronics Co Ltd
+6098.T,JP,0.102300,Recruit Holdings Co Ltd
+0939.HK,HK,0.100800,China Construction Bank Corp
+MCK,US,0.100600,McKesson Corp
+ADP,US,0.100300,Automatic Data Processing Inc
+BNS.TO,CA,0.099900,Bank of Nova Scotia/The
+1299.HK,HK,0.099800,AIA Group Ltd
+BNY,US,0.099000,Bank of New York Mellon Corp/The
+DTE.DE,DE,0.098800,Deutsche Telekom AG
+SO,US,0.098200,Southern Co/The
+285A.T,JP,0.097600,Kioxia Holdings Corp
+ADBE,US,0.097600,Adobe Inc
+TT,US,0.097000,Trane Technologies PLC
+NEM,US,0.096700,Newmont Corp
+GSK.L,GB,0.096500,GSK PLC
+ACN,US,0.095900,Accenture PLC
+INGA.AS,NL,0.095900,ING Groep NV
+FTNT,US,0.095500,Fortinet Inc
+CNQ.TO,CA,0.094700,Canadian Natural Resources Ltd
+EQIX,US,0.094400,Equinix Inc
+RIO.L,GB,0.093600,Rio Tinto PLC
+2317.TW,TW,0.093200,Hon Hai Precision Industry Co Ltd
+SNOW,US,0.093100,Snowflake Inc
+PWR,US,0.093000,Quanta Services Inc
+PNC,US,0.093000,PNC Financial Services Group Inc/The
+GD,US,0.092300,General Dynamics Corp
+8058.T,JP,0.092200,Mitsubishi Corp
+CME,US,0.091800,CME Group Inc
+BX,US,0.091100,Blackstone Inc
+DUK,US,0.090900,Duke Energy Corp
+USB,US,0.090300,US Bancorp
+APP,US,0.090100,AppLovin Corp
+RELIANCE.NS,IN,0.090000,Reliance Industries Ltd
+CSX,US,0.089500,CSX Corp
+CDNS,US,0.089300,Cadence Design Systems Inc
+MPC,US,0.089100,Marathon Petroleum Corp
+2308.TW,TW,0.088900,Delta Electronics Inc
+HDFCBANK.NS,IN,0.088900,HDFC Bank Ltd
+IFX.DE,DE,0.088900,Infineon Technologies AG
+BARC.L,GB,0.088100,Barclays PLC
+VLO,US,0.088000,Valero Energy Corp
+SAN.PA,FR,0.087800,Sanofi SA
+VRT,US,0.087600,Vertiv Holdings Co
+MMM,US,0.087300,3M Co
+8766.T,JP,0.086900,Tokio Marine Holdings Inc
+FCX,US,0.086700,Freeport-McMoRan Inc
+MRSH,US,0.086700,Marsh & McLennan Cos Inc
+6861.T,JP,0.086300,Keyence Corp
+JCI,US,0.085700,Johnson Controls International plc
+LLOY.L,GB,0.085200,Lloyds Banking Group PLC
+WBC.AX,AU,0.084600,Westpac Banking Corp
+INTU,US,0.084100,Intuit Inc
+NET,US,0.083800,Cloudflare Inc
+BN.TO,CA,0.083700,Brookfield Corp
+DDOG,US,0.083000,Datadog Inc
+WMB,US,0.082700,Williams Cos Inc/The
+CMCSA,US,0.082600,Comcast Corp
+MELI,US,0.082600,MercadoLibre Inc
+NAB.AX,AU,0.082600,National Australia Bank Ltd
+ENEL.MI,IT,0.082500,Enel SpA
+ICE,US,0.082000,Intercontinental Exchange Inc
+CMI,US,0.081700,Cummins Inc
+PSX,US,0.081700,Phillips 66
+9983.T,JP,0.081600,Fast Retailing Co Ltd
+CEG,US,0.080400,Constellation Energy Corp
+WM,US,0.079700,Waste Management Inc
+TMUS,US,0.079600,T-Mobile US Inc
+BA.L,GB,0.079400,BAE Systems PLC
+EOG,US,0.078600,EOG Resources Inc
+SU.TO,CA,0.078500,Suncor Energy Inc
+EMR,US,0.078400,Emerson Electric Co
+AMT,US,0.077900,American Tower Corp
+MAR,US,0.077800,Marriott International Inc/MD
+8001.T,JP,0.077100,ITOCHU Corp
+CP.TO,CA,0.076900,Canadian Pacific Kansas City Ltd
+CS.PA,FR,0.076300,AXA SA
+ABI.BR,BE,0.076100,Anheuser-Busch InBev SA/NV
+MDLZ,US,0.076000,Mondelez International Inc
+GM,US,0.076000,General Motors Co
+SHW,US,0.075600,Sherwin-Williams Co/The
+ANZ.AX,AU,0.075500,ANZ Group Holdings Ltd
+RCL,US,0.075400,Royal Caribbean Cruises Ltd
+ROST,US,0.075200,Ross Stores Inc
+HON,US,0.074900,Honeywell International Inc
+MUV2.DE,DE,0.074900,Muenchener Rueckversicherungs-Gesellschaft AG in
+6981.T,JP,0.074800,Murata Manufacturing Co Ltd
+SPOT,US,0.074000,Spotify Technology SA
+ICICIBANK.NS,IN,0.073900,ICICI Bank Ltd
+8031.T,JP,0.073500,Mitsui & Co Ltd
+UPS,US,0.073200,United Parcel Service Inc
+NG.L,GB,0.073200,National Grid PLC
+1398.HK,HK,0.073100,Industrial & Commercial Bank of China Ltd
+TRV,US,0.072900,Travelers Cos Inc/The
+ITW,US,0.072800,Illinois Tool Works Inc
+GLEN.L,GB,0.072700,Glencore PLC
+REGN,US,0.072500,Regeneron Pharmaceuticals Inc
+NWG.L,GB,0.072200,NatWest Group PLC
+AON,US,0.072200,Aon PLC
+6503.T,JP,0.071800,Mitsubishi Electric Corp
+NSC,US,0.071600,Norfolk Southern Corp
+SLB,US,0.071600,SLB Ltd
+MFC.TO,CA,0.070800,Manulife Financial Corp
+ORLY,US,0.070600,O'Reilly Automotive Inc
+7011.T,JP,0.070500,Mitsubishi Heavy Industries Ltd
+SNPS,US,0.070300,Synopsys Inc
+AEM.TO,CA,0.070000,Agnico Eagle Mines Ltd
+O39.SI,SG,0.069800,Oversea-Chinese Banking Corp Ltd
+MCO,US,0.069700,Moody's Corp
+CL,US,0.069400,Colgate-Palmolive Co
+SPG,US,0.069200,Simon Property Group Inc
+MSI,US,0.069100,Motorola Solutions Inc
+ELV,US,0.069000,Elevance Health Inc
+CI,US,0.068900,Cigna Group/The
+NOC,US,0.068500,Northrop Grumman Corp
+DASH,US,0.068400,DoorDash Inc
+HLT,US,0.067900,Hilton Worldwide Holdings Inc
+CNR.TO,CA,0.066900,Canadian National Railway Co
+ITX.MC,ES,0.066700,Industria de Diseno Textil SA
+WES.AX,AU,0.066400,Wesfarmers Ltd
+CTAS,US,0.065900,Cintas Corp
+TDG,US,0.065800,TransDigm Group Inc
+MPWR,US,0.065800,Monolithic Power Systems Inc
+BSX,US,0.064900,Boston Scientific Corp
+DG.PA,FR,0.064800,Vinci SA
+TGT,US,0.064500,Target Corp
+DLR,US,0.064400,Digital Realty Trust Inc
+ECL,US,0.064300,Ecolab Inc
+PCAR,US,0.064300,PACCAR Inc
+TRP.TO,CA,0.064200,TC Energy Corp
+URI,US,0.064100,United Rentals Inc
+ALL,US,0.064100,Allstate Corp/The
+AEP,US,0.064000,American Electric Power Co Inc
+4063.T,JP,0.063700,Shin-Etsu Chemical Co Ltd
+KKR,US,0.063600,KKR & Co Inc
+PDD,US,0.063300,PDD Holdings Inc
+402340.KS,KR,0.062700,SK Square Co Ltd
+MNST,US,0.062400,Monster Beverage Corp
+0388.HK,HK,0.062100,Hong Kong Exchanges & Clearing Ltd
+HOOD,US,0.062000,Robinhood Markets Inc
+3690.HK,HK,0.061500,Meituan
+AJG,US,0.061500,Arthur J Gallagher & Co
+HONA,US,0.061500,Honeywell Aerospace Inc
+FDX,US,0.061400,FedEx Corp
+APD,US,0.061400,Air Products and Chemicals Inc
+TFC,US,0.061200,Truist Financial Corp
+CRH,US,0.061000,CRH PLC
+1810.HK,HK,0.061000,Xiaomi Corp
+HPE,US,0.060300,Hewlett Packard Enterprise Co
+AI.PA,FR,0.060200,Air Liquide SA
+WBD,US,0.060100,Warner Bros Discovery Inc
+TEL,US,0.060100,TE Connectivity PLC
+DBK.DE,DE,0.059900,Deutsche Bank AG
+ABNB,US,0.059800,Airbnb Inc
+NDA-FI.HE,FI,0.059400,Nordea Bank Abp
+KMI,US,0.059200,Kinder Morgan Inc
+REL.L,GB,0.059100,RELX PLC
+BHARTIARTL.NS,IN,0.059100,Bharti Airtel Ltd
+GLE.PA,FR,0.058900,Societe Generale SA
+BKR,US,0.058400,Baker Hughes Co
+ABX.TO,CA,0.058100,Barrick Mining Corp
+HCA,US,0.057900,HCA Healthcare Inc
+FIX,US,0.057700,Comfort Systems USA Inc
+DHL.DE,DE,0.057700,Deutsche Post AG
+RMS.PA,FR,0.057100,Hermes International SCA
+MQG.AX,AU,0.057100,Macquarie Group Ltd
+6752.T,JP,0.056900,Panasonic Holdings Corp
+D,US,0.056900,Dominion Energy Inc
+TER,US,0.056100,Teradyne Inc
+RHM.DE,DE,0.056000,Rheinmetall AG
+GWW,US,0.056000,WW Grainger Inc
+3711.TW,TW,0.055500,ASE Technology Holding Co Ltd
+O,US,0.055100,Realty Income Corp
+KEYS,US,0.055000,Keysight Technologies Inc
+NXPI,US,0.054900,NXP Semiconductors NV
+COR,US,0.054800,Cencora Inc
+OKE,US,0.054700,ONEOK Inc
+TRGP,US,0.054300,Targa Resources Corp
+VOLV-B.ST,SE,0.054300,Volvo AB
+SPCX,US,0.054200,Space Exploration Technologies Corp
+NUE,US,0.054100,Nucor Corp
+F,US,0.053200,Ford Motor Co
+AME,US,0.053000,AMETEK Inc
+BAYN.DE,DE,0.052900,Bayer AG
+LNG,US,0.052700,Cheniere Energy Inc
+4502.T,JP,0.052600,Takeda Pharmaceutical Co Ltd
+SRE,US,0.052600,Sempra
+PRX.AS,NL,0.052500,Prosus NV
+LSEG.L,GB,0.052300,London Stock Exchange Group PLC
+DB1.DE,DE,0.051900,Deutsche Boerse AG
+ROK,US,0.051700,Rockwell Automation Inc
+FAST,US,0.051600,Fastenal Co
+PSA,US,0.051500,Public Storage
+STAN.L,GB,0.051400,Standard Chartered PLC
+AFL,US,0.051100,Aflac Inc
+CAH,US,0.051100,Cardinal Health Inc
+CIEN,US,0.050700,Ciena Corp
+APO,US,0.050600,Apollo Global Management Inc
+7741.T,JP,0.050500,Hoya Corp
+EL.PA,FR,0.050400,EssilorLuxottica SA
+CPG.L,GB,0.050400,Compass Group PLC
+DVN,US,0.050100,Devon Energy Corp
+CTVA,US,0.050100,Corteva Inc
+BAS.DE,DE,0.049900,BASF SE
+ENI.MI,IT,0.049800,Eni SpA
+ARGX.BR,BE,0.049700,Argenx SE
+AAL.L,GB,0.049600,Anglo American PLC
+MET,US,0.049600,MetLife Inc
+3988.HK,HK,0.049300,Bank of China Ltd
+OR.PA,FR,0.049200,L'Oreal SA
+VALE3.SA,BR,0.049100,Vale SA
+LHX,US,0.049000,L3Harris Technologies Inc
+CABK.MC,ES,0.048800,CaixaBank SA
+EA,US,0.048700,Electronic Arts Inc
+EBAY,US,0.048600,eBay Inc
+STT,US,0.048000,State Street Corp
+VST,US,0.048000,Vistra Corp
+9433.T,JP,0.047900,KDDI Corp
+BN.PA,FR,0.047900,Danone SA
+WAB,US,0.047500,Westinghouse Air Brake Technologies Corp
+AMP,US,0.047500,Ameriprise Financial Inc
+WPM.TO,CA,0.047400,Wheaton Precious Metals Corp
+AZO,US,0.047400,AutoZone Inc
+2914.T,JP,0.047300,Japan Tobacco Inc
+7974.T,JP,0.047000,Nintendo Co Ltd
+9999.HK,HK,0.047000,NetEase Inc
+NKE,US,0.047000,NIKE Inc
+CARR,US,0.046800,Carrier Global Corp
+2318.HK,HK,0.046800,Ping An Insurance Group Co of China Ltd
+FITB,US,0.046800,Fifth Third Bancorp
+RWE.DE,DE,0.046600,RWE AG
+DGE.L,GB,0.046600,Diageo PLC
+ADSK,US,0.046400,Autodesk Inc
+LONN.SW,CH,0.046200,Lonza Group AG
+ATD.TO,CA,0.046200,Alimentation Couche-Tard Inc
+EW,US,0.045800,Edwards Lifesciences Corp
+XEL,US,0.045800,Xcel Energy Inc
+SREN.SW,CH,0.045700,Swiss Re AG
+8002.T,JP,0.045600,Marubeni Corp
+CMG,US,0.045500,Chipotle Mexican Grill Inc
+ETR,US,0.045200,Entergy Corp
+NOKIA.HE,FI,0.045100,Nokia Oyj
+NU,US,0.045100,NU Holdings Ltd/Cayman Islands
+ALAB,US,0.044900,Astera Labs Inc
+GRMN,US,0.044700,Garmin Ltd
+8591.T,JP,0.044600,ORIX Corp
+2303.TW,TW,0.044400,United Microelectronics Corp
+RIO.AX,AU,0.044400,Rio Tinto Ltd
+EOAN.DE,DE,0.044300,E.ON SE
+G.MI,IT,0.044200,Generali
+1120.SR,SA,0.044100,Al Rajhi Bank
+EXC,US,0.044000,Exelon Corp
+ITUB4.SA,BR,0.043900,Itau Unibanco Holding SA
+BDX,US,0.043900,Becton Dickinson & Co
+COHR,US,0.043800,Coherent Corp
+INVE-B.ST,SE,0.043600,Investor AB
+INVE-A.ST,SE,0.043400,Investor AB
+RKT.L,GB,0.043300,Reckitt Benckiser Group PLC
+009150.KS,KR,0.042900,Samsung Electro-Mechanics Co Ltd
+HUM,US,0.042800,Humana Inc
+SLF.TO,CA,0.042500,Sun Life Financial Inc
+IDXX,US,0.042400,IDEXX Laboratories Inc
+ATCO-B.ST,SE,0.042200,Atlas Copco AB
+VTR,US,0.042000,Ventas Inc
+HOLN.SW,CH,0.041800,Holcim AG
+ASM.AS,NL,0.041800,ASM International NV
+6367.T,JP,0.041800,Daikin Industries Ltd
+RACE.MI,IT,0.041600,Ferrari NV
+TTWO,US,0.041400,Take-Two Interactive Software Inc
+SGO.PA,FR,0.041400,Cie de Saint-Gobain SA
+1211.HK,HK,0.041400,BYD Co Ltd
+CVNA,US,0.041300,Carvana Co
+FERG,US,0.041200,Ferguson Enterprises Inc
+8750.T,JP,0.041200,Daiichi Life Group Inc
+TSCO.L,GB,0.041000,Tesco PLC
+CBRE,US,0.040900,CBRE Group Inc
+WDS.AX,AU,0.040600,Woodside Energy Group Ltd
+CSU.TO,CA,0.040600,Constellation Software Inc/Canada
+AIG,US,0.040500,American International Group Inc
+WCN.TO,CA,0.040300,Waste Connections Inc
+CSL.AX,AU,0.040300,CSL Ltd
+PRU,US,0.040200,Prudential Financial Inc
+CVE.TO,CA,0.040100,Cenovus Energy Inc
+HLN.L,GB,0.040000,Haleon PLC
+GMG.AX,AU,0.040000,Goodman Group
+YUM,US,0.039700,Yum! Brands Inc
+5803.T,JP,0.039500,Fujikura Ltd
+FLEX,US,0.039400,Flex Ltd
+OXY,US,0.039400,Occidental Petroleum Corp
+IQV,US,0.039400,IQVIA Holdings Inc
+NDAQ,US,0.039300,Nasdaq Inc
+INFY.NS,IN,0.039300,Infosys Ltd
+ORA.PA,FR,0.039200,Orange SA
+2383.TW,TW,0.039200,Elite Material Co Ltd
+FANG,US,0.039000,Diamondback Energy Inc
+ROP,US,0.039000,Roper Technologies Inc
+DSV.CO,DK,0.038900,DSV A/S
+105560.KS,KR,0.038900,KB Financial Group Inc
+KDP,US,0.038700,Keurig Dr Pepper Inc
+PETR3.SA,BR,0.038600,Petroleo Brasileiro SA
+9618.HK,HK,0.038600,JD.com Inc
+MSCI,US,0.038500,MSCI Inc
+9434.T,JP,0.038300,SoftBank Corp
+NPN.JO,ZA,0.038200,Naspers Ltd
+FNV.TO,CA,0.038200,Franco-Nevada Corp
+6954.T,JP,0.038100,FANUC Corp
+RSG,US,0.038000,Republic Services Inc
+MBG.DE,DE,0.038000,Mercedes-Benz Group AG
+GALD.SW,CH,0.038000,Galderma Group AG
+AXON,US,0.037900,Axon Enterprise Inc
+PRY.MI,IT,0.037900,Prysmian SpA
+7267.T,JP,0.037500,Honda Motor Co Ltd
+ED,US,0.037400,Consolidated Edison Inc
+5802.T,JP,0.037400,Sumitomo Electric Industries Ltd
+ODFL,US,0.037400,Old Dominion Freight Line Inc
+U11.SI,SG,0.037400,United Overseas Bank Ltd
+SYY,US,0.037400,Sysco Corp
+XYZ,US,0.037200,Block Inc
+MCHP,US,0.037200,Microchip Technology Inc
+8053.T,JP,0.037100,Sumitomo Corp
+LR.PA,FR,0.037100,Legrand SA
+2222.SR,SA,0.037000,Saudi Arabian Oil Co
+A,US,0.037000,Agilent Technologies Inc
+IBKR,US,0.036900,Interactive Brokers Group Inc
+SIKA.SW,CH,0.036900,Sika AG
+SAND.ST,SE,0.036800,Sandvik AB
+6701.T,JP,0.036800,NEC Corp
+8725.T,JP,0.036700,MS&AD Insurance Group Holdings Inc
+8630.T,JP,0.036100,Sompo Holdings Inc
+6301.T,JP,0.036100,Komatsu Ltd
+PYPL,US,0.036100,PayPal Holdings Inc
+SSE.L,GB,0.036000,SSE PLC
+ADM,US,0.035800,Archer-Daniels-Midland Co
+PAYX,US,0.035600,Paychex Inc
+PRU.L,GB,0.035500,Prudential PLC
+DANSKE.CO,DK,0.035500,Danske Bank A/S
+2891.TW,TW,0.035500,CTBC Financial Holding Co Ltd
+KVUE,US,0.035400,Kenvue Inc
+EME,US,0.035400,EMCOR Group Inc
+DHI,US,0.035400,DR Horton Inc
+6702.T,JP,0.035300,Fujitsu Ltd
+ANG.JO,ZA,0.035300,Anglogold Ashanti Plc
+CLS.TO,CA,0.035300,Celestica Inc
+PEG,US,0.035200,Public Service Enterprise Group Inc
+TEVA.TA,IL,0.035200,Teva Pharmaceutical Industries Ltd
+HIG,US,0.035100,Hartford Financial Services Group Inc/The
+FFH.TO,CA,0.035100,Fairfax Financial Holdings Ltd
+III.L,GB,0.035000,3i Group PLC
+6762.T,JP,0.035000,TDK Corp
+PCG,US,0.034900,PG&E Corp
+WAT,US,0.034900,Waters Corp
+CCO.TO,CA,0.034700,Cameco Corp
+NTRA,US,0.034300,Natera Inc
+LUMI.TA,IL,0.034300,Bank Leumi Le-Israel BM
+005380.KS,KR,0.034300,Hyundai Motor Co
+ASSA-B.ST,SE,0.034200,Assa Abloy AB
+EBS.VI,AT,0.034100,Erste Group Bank AG
+GMEXICOB.MX,MX,0.034100,Grupo Mexico SAB de CV
+4578.T,JP,0.034000,Otsuka Holdings Co Ltd
+DOL.TO,CA,0.034000,Dollarama Inc
+MTB,US,0.033900,M&T Bank Corp
+STMMI.MI,IT,0.033900,STMicroelectronics NV
+POW.TO,CA,0.033800,Power Corp of Canada
+IFC.TO,CA,0.033600,Intact Financial Corp
+ATCO-A.ST,SE,0.033500,Atlas Copco AB
+KMB,US,0.033400,Kimberly-Clark Corp
+IRM,US,0.033300,Iron Mountain Inc
+STLD,US,0.033200,Steel Dynamics Inc
+CCL,US,0.033000,Carnival Corp Ltd
+CCI,US,0.032900,Crown Castle Inc
+RKLB,US,0.032800,Rocket Lab Corp
+VMC,US,0.032800,Vulcan Materials Co
+ACGL,US,0.032800,Arch Capital Group Ltd
+FER.MC,ES,0.032600,Ferrovial NV
+7182.T,JP,0.032500,Japan Post Bank Co Ltd
+AD.AS,NL,0.032500,Koninklijke Ahold Delhaize NV
+ON,US,0.032300,ON Semiconductor Corp
+6723.T,JP,0.032300,Renesas Electronics Corp
+BAJFINANCE.NS,IN,0.032200,Bajaj Finance Ltd
+HBAN,US,0.032200,Huntington Bancshares Inc/OH
+OTP.BD,HU,0.032100,OTP Bank Nyrt
+SDZ.SW,CH,0.032100,Sandoz Group AG
+M&M.NS,IN,0.032000,Mahindra & Mahindra Ltd
+REP.MC,ES,0.032000,Repsol SA
+KR,US,0.031900,Kroger Co/The
+NTR.TO,CA,0.031800,Nutrien Ltd
+ZTS,US,0.031800,Zoetis Inc
+EXR,US,0.031700,Extra Space Storage Inc
+COIN,US,0.031700,Coinbase Global Inc
+WDAY,US,0.031700,Workday Inc
+EQT,US,0.031700,EQT Corp
+EXPE,US,0.031700,Expedia Group Inc
+MTD,US,0.031500,Mettler-Toledo International Inc
+EXPN.L,GB,0.031300,Experian PLC
+POLI.TA,IL,0.031200,Bank Hapoalim BM
+GFNORTEO.MX,MX,0.031100,Grupo Financiero Banorte SAB de CV
+NTRS,US,0.031000,Northern Trust Corp
+PETR4.SA,BR,0.031000,Petroleo Brasileiro SA
+ALC.SW,CH,0.030900,Alcon AG
+2882.TW,TW,0.030900,Cathay Financial Holding Co Ltd
+WOW.AX,AU,0.030900,Woolworths Group Ltd
+WEC,US,0.030800,WEC Energy Group Inc
+KBC.BR,BE,0.030700,KBC Group NV
+6971.T,JP,0.030700,Kyocera Corp
+SLHN.SW,CH,0.030600,Swiss Life Holding AG
+ENGI.PA,FR,0.030600,Engie SA
+2881.TW,TW,0.030500,Fubon Financial Holding Co Ltd
+TDY,US,0.030400,Teledyne Technologies Inc
+CBOE,US,0.030300,Cboe Global Markets Inc
+DXCM,US,0.030200,Dexcom Inc
+IR,US,0.030200,Ingersoll Rand Inc
+TCL.AX,AU,0.029800,Transurban Group
+SWED-A.ST,SE,0.029700,Swedbank AB
+MSTR,US,0.029600,Strategy Inc
+ILMN,US,0.029600,Illumina Inc
+RMD,US,0.029500,ResMed Inc
+WTW,US,0.029500,Willis Towers Watson PLC
+BIIB,US,0.029500,Biogen Inc
+055550.KS,KR,0.029400,Shinhan Financial Group Co Ltd
+NTAP,US,0.029400,NetApp Inc
+CFG,US,0.029300,Citizens Financial Group Inc
+8015.T,JP,0.029200,Toyota Tsusho Corp
+MLM,US,0.029200,Martin Marietta Materials Inc
+UCB.BR,BE,0.029200,UCB SA
+FTS.TO,CA,0.029100,Fortis Inc/Canada
+2887.TW,TW,0.029000,TS Financial Holding Co Ltd
+9888.HK,HK,0.029000,Baidu Inc
+GEHC,US,0.029000,GE HealthCare Technologies Inc
+CNC,US,0.029000,Centene Corp
+2345.TW,TW,0.028900,Accton Technology Corp
+5108.T,JP,0.028800,Bridgestone Corp
+4901.T,JP,0.028700,FUJIFILM Holdings Corp
+6146.T,JP,0.028600,Disco Corp
+1180.SR,SA,0.028600,Saudi National Bank/The
+8308.T,JP,0.028500,Resona Holdings Inc
+RF,US,0.028500,Regions Financial Corp
+MT.AS,NL,0.028400,ArcelorMittal SA
+CBK.DE,DE,0.028400,Commerzbank AG
+GIVN.SW,CH,0.028300,Givaudan SA
+ADS.DE,DE,0.028300,adidas AG
+FSR.JO,ZA,0.028300,FirstRand Ltd
+VEEV,US,0.028200,Veeva Systems Inc
+9961.HK,HK,0.028200,Trip.com Group Ltd
+3382.T,JP,0.028100,Seven & i Holdings Co Ltd
+8309.T,JP,0.028100,Sumitomo Mitsui Trust Group Inc
+VOD.L,GB,0.028000,Vodafone Group PLC
+TECK-B.TO,CA,0.028000,Teck Resources Ltd
+DTE,US,0.028000,DTE Energy Co
+SEB-A.ST,SE,0.027900,Skandinaviska Enskilda Banken AB
+0001.HK,HK,0.027800,CK Hutchison Holdings Ltd
+LT.NS,IN,0.027800,Larsen & Toubro Ltd
+IMB.L,GB,0.027800,Imperial Brands PLC
+3037.TW,TW,0.027700,Unimicron Technology Corp
+EQNR.OL,NO,0.027700,Equinor ASA
+AEE,US,0.027600,Ameren Corp
+ADYEN.AS,NL,0.027600,Adyen NV
+4519.T,JP,0.027500,Chugai Pharmaceutical Co Ltd
+4568.T,JP,0.027500,Daiichi Sankyo Co Ltd

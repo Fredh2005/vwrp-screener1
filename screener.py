@@ -33,6 +33,7 @@ import yfinance as yf
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 UNIVERSE = os.path.join(BASE, "universe.csv")
+HOLDINGS = os.path.join(BASE, "holdings.csv")
 CACHE = os.path.join(BASE, ".cache")
 OUTDIR = os.path.join(BASE, "output")
 CACHE_TTL_HOURS = 24
@@ -41,6 +42,27 @@ CACHE_TTL_HOURS = 24
 # --------------------------------------------------------------------------
 # Universe
 # --------------------------------------------------------------------------
+
+def load_holdings(pool):
+    """VWRP's real constituents, heaviest first, straight from Vanguard.
+
+    We keep the whole fund on file but only fetch the heaviest `pool` of them:
+    a holding at rank 2000 carries 0.003% and would need to grow 35x to reach
+    the top 150, so fetching it nightly buys nothing."""
+    rows = []
+    with open(HOLDINGS) as fh:
+        for line in fh:
+            line = line.strip()
+            if not line or line.startswith("#") or line.startswith("ticker,"):
+                continue
+            parts = line.split(",")
+            if len(parts) >= 3 and parts[0]:
+                rows.append({"ticker": parts[0], "region": parts[1],
+                             "vanguard_weight": float(parts[2]),
+                             "holding_name": parts[3] if len(parts) > 3 else None})
+    rows.sort(key=lambda r: -r["vanguard_weight"])
+    return rows[:pool] if pool else rows
+
 
 def load_universe():
     rows = []
@@ -191,6 +213,9 @@ def fetch_all(universe, use_cache=True, workers=8, delay=0.0):
             except Exception as exc:
                 rec = {"ticker": u["ticker"], "error": str(exc)[:200]}
             rec["region"] = u["region"]
+            for k in ("vanguard_weight", "holding_name"):
+                if u.get(k) is not None:
+                    rec[k] = u[k]
             results.append(rec)
             if done % 20 == 0 or done == total:
                 print(f"  fetched {done}/{total}", file=sys.stderr)
@@ -618,7 +643,7 @@ COLUMNS = [
     ("return_1y_pct", "Return 1y %"),
     ("dividendYield_pct", "Div yield %"),
     ("size_rank", "Size rank"),
-    ("approx_weight_pct", "Weight % of set"),
+    ("vanguard_weight", "VWRP weight %"),
     ("marketCap_bn", "Mkt cap ($bn)"),
     ("data_coverage_pct", "Data coverage %"),
     ("flags", "Flags"),
@@ -671,7 +696,7 @@ def write_excel(df, path):
         ws.row_dimensions[1].height = 34
 
         widths = {"Rank": 6, "Ticker": 11, "Company": 32, "Sector": 20,
-                  "Weight % of set": 14, "Opportunity score": 13,
+                  "VWRP weight %": 13, "Opportunity score": 13,
                   "Opportunity": 12, "Size rank": 9,
                   "Region": 8, "Revenue trend": 14, "Risk rating": 12,
                   "Flags": 46}
@@ -1144,6 +1169,8 @@ def main():
     ap.add_argument("--max-pe", type=float, help="only keep stocks with trailing P/E below this")
     ap.add_argument("--max-de", type=float, help="only keep stocks with debt/equity below this")
     ap.add_argument("--min-growth", type=float, help="only keep stocks with rev growth above this %%")
+    ap.add_argument("--pool", type=int, default=0,
+                    help="cap on holdings fetched; 0 = the whole file")
     ap.add_argument("--workers", type=int, default=5)
     ap.add_argument("--fetch-only", help=argparse.SUPPRESS)
     args = ap.parse_args()
@@ -1158,8 +1185,16 @@ def main():
         return None
 
     os.makedirs(OUTDIR, exist_ok=True)
-    universe = load_universe()
-    print(f"Universe: {len(universe)} candidate tickers", file=sys.stderr)
+    if os.path.exists(HOLDINGS):
+        universe = load_holdings(args.pool)
+        total = sum(1 for l in open(HOLDINGS)
+                    if l.strip() and not l.startswith(("#", "ticker,")))
+        covered = sum(u["vanguard_weight"] for u in universe)
+        print(f"VWRP holdings on file: {total} | fetching heaviest "
+              f"{len(universe)} ({covered:.1f}% of fund)", file=sys.stderr)
+    else:
+        universe = load_universe()
+        print(f"Universe: {len(universe)} candidate tickers", file=sys.stderr)
 
     print("Fetching fundamentals (cached for 24h)...", file=sys.stderr)
     records = fetch_all(universe, use_cache=not args.refresh, workers=args.workers)
@@ -1205,13 +1240,18 @@ def main():
 
     # Dual listings (e.g. HSBC on London and Hong Kong) are one company and
     # would otherwise occupy two ranks. Keep the largest listing of each.
-    seen, deduped, dropped = {}, [], []
+    seen, deduped, dropped = {}, [], []   # name -> kept record
     for r in ok:
         key = (r.get("longName") or r.get("shortName") or r["ticker"]).strip().lower()
         if key in seen:
-            dropped.append(f"{r['ticker']} (dup of {seen[key]})")
+            # Same company, second listing or share class. Keep one row but
+            # carry its fund weight over, or VWRP's true exposure is understated.
+            keeper = seen[key]
+            if r.get("vanguard_weight") and keeper.get("vanguard_weight") is not None:
+                keeper["vanguard_weight"] += r["vanguard_weight"]
+            dropped.append(f"{r['ticker']} (merged into {keeper['ticker']})")
             continue
-        seen[key] = r["ticker"]
+        seen[key] = r
         deduped.append(r)
     if dropped:
         print(f"Dropped {len(dropped)} dual listings: " + ", ".join(dropped[:8]) +

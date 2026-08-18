@@ -177,15 +177,15 @@ for them.
 
 ## Limitations worth knowing
 
-- **The holdings list is an approximation.** Vanguard puts the full constituent
-  list behind an account gate, so `universe.csv` holds ~870 global large-caps as
-  candidates; the script ranks them by live market cap and keeps the top N. That
-  mirrors how a cap-weighted index allocates, but FTSE weights by *free float*,
-  so exact weights differ. Edit `universe.csv` freely — one Yahoo ticker per
-  line — or paste in Vanguard's official list if you obtain it.
-- **Weight % is share of the shown set, not of the fund.** VWRP holds ~3,750
-  stocks; the top 150 are roughly half the fund. A name at 6% here is nearer 3%
-  of the actual ETF.
+- **The holdings are now VWRP's real constituents.** `holdings.csv` comes from
+  Vanguard's own export, carrying their published weights. Of 3,792 holdings,
+  3,735 map to Yahoo tickers (98.8% of fund weight); the rest are Kuwaiti, UAE
+  and delisted Russian lines with no Yahoo feed.
+- **The file is trimmed to 616 holdings** — everything within a 4x move of the
+  top-150 cutoff, or 81.9% of the fund. Holdings below that would need 5x–35x
+  growth in a year to matter, so fetching them nightly costs time and buys
+  nothing. Regenerate with a different threshold using `map_holdings.py`.
+- **VWRP weight % is Vanguard's real published figure**, not an estimate.
 - **Fundamentals lag.** Yahoo Finance reports as last filed, so figures can be a
   quarter behind.
 - P/E, debt/equity, margins and growth are ratios and so currency-neutral.
