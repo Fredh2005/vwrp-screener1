@@ -105,7 +105,7 @@ Outputs land in `output/`:
 - `artifact.html` — same page without the document wrapper, for publishing to
   a shareable URL
 
-First run takes ~10 minutes (it fetches ~330 companies). Results are cached for
+First run takes ~20 minutes (it fetches ~870 companies). Results are cached for
 24h, so re-runs are near-instant.
 
 ## Options
@@ -178,7 +178,7 @@ for them.
 ## Limitations worth knowing
 
 - **The holdings list is an approximation.** Vanguard puts the full constituent
-  list behind an account gate, so `universe.csv` holds ~330 global large-caps as
+  list behind an account gate, so `universe.csv` holds ~870 global large-caps as
   candidates; the script ranks them by live market cap and keeps the top N. That
   mirrors how a cap-weighted index allocates, but FTSE weights by *free float*,
   so exact weights differ. Edit `universe.csv` freely — one Yahoo ticker per
