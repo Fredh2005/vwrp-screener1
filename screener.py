@@ -815,6 +815,9 @@ DASHBOARD_TEMPLATE = r"""<!doctype html>
   --s-weak:#F0857C;  --s-weak-bg:#361B1C;
 }
 *{box-sizing:border-box}
+/* The hidden attribute is display:none in the UA stylesheet only, so any
+   author rule setting display (.ctl is flex) silently overrides it. */
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-ui);
   font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1600px;margin:0 auto;padding:34px 22px 64px;position:relative}
