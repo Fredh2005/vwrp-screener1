@@ -1,0 +1,58 @@
+name: Refresh screener and publish
+
+# 20:35 UTC = 21:35 UK during British Summer Time.
+# The UK switches to GMT in late October, when this becomes 20:35 local --
+# change the cron to "35 21 * * *" then if you want it to stay at 21:35.
+on:
+  schedule:
+    - cron: "35 20 * * *"
+  workflow_dispatch:        # lets you trigger a run by hand from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two runs publish at once; let a manual run finish rather than
+# cancelling it midway.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install --quiet yfinance pandas openpyxl
+
+      - name: Run the screener
+        run: python -W ignore screener.py --top 150 --refresh
+
+      - name: Assemble the site
+        run: |
+          mkdir -p site
+          # GitHub Pages serves index.html at the root.
+          cp output/dashboard.html site/index.html
+          cp output/vwrp_screen_*.xlsx site/ 2>/dev/null || true
+          ls -la site/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,9 @@
+venv/
+.cache/
+output/refresh.log
+output/server.log
+output/launchd.log
+output/*.xlsx
+__pycache__/
+*.pyc
+.DS_Store
