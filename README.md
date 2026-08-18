@@ -90,6 +90,20 @@ thing and does not auto-update — see below.
 
 Nothing updates on its own unless `serve.py` is running.
 
+## Maintenance
+
+Two automated workflows keep this running with no input from you:
+
+| Workflow | When | Why |
+|---|---|---|
+| Refresh screener and publish | Nightly 21:35 UK | Rebuilds and republishes the page |
+| Keep scheduled builds alive | 1st of each month | GitHub disables scheduled workflows in public repos after 60 days without a commit; this makes a trivial commit to reset that clock |
+
+The only thing needing your input is a **fresh Vanguard holdings export every
+few months**. Fund membership and weights are frozen to whatever `holdings.csv`
+was built from; prices and rankings refresh nightly regardless. Download the
+export from Vanguard's site and regenerate with `map_holdings.py`.
+
 ## Or just generate the files
 
 ```bash
