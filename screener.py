@@ -1098,7 +1098,9 @@ if(location.protocol.startsWith("http")){
 }
 
 // The refresh endpoint only exists when the page is served by serve.py.
-if(location.protocol.startsWith("http")){
+// Refresh re-runs the screener through serve.py, so it only exists locally.
+// On the published site the button would just fail for every visitor.
+if(["localhost","127.0.0.1"].includes(location.hostname)){
   const wrap=document.getElementById("refreshwrap"); wrap.hidden=false;
   const btn=document.getElementById("refresh");
   btn.onclick=async()=>{
