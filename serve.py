@@ -121,15 +121,28 @@ def cached_quotes():
 # HTTP
 # --------------------------------------------------------------------------
 
+# The same page carries two identities: "Screener" is the live one on this
+# machine, "Daily update" is the published snapshot people are sent. The built
+# HTML names the published one, so rewrite it on the way out.
+LOCAL_NAME = "Screener"
+
 MANIFEST = {
-    "name": "VWRP Stock Screener",
-    "short_name": "VWRP",
+    "name": "VWRP Screener (live)",
+    "short_name": LOCAL_NAME,
+    "id": "/",
     "start_url": "/",
+    "scope": "/",
     "display": "standalone",
-    "background_color": "#FAF9F6",
+    "background_color": "#0D1524",
     "theme_color": "#8A6A2F",
-    "icons": [{"src": "/icon.svg", "sizes": "any", "type": "image/svg+xml"}],
+    "icons": [
+        {"src": "/icon-192.png", "sizes": "192x192", "type": "image/png"},
+        {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png",
+         "purpose": "any maskable"},
+    ],
 }
+
+ICON_FILES = ("apple-touch-icon.png", "icon-192.png", "icon-512.png")
 
 ICON = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
 <rect width="192" height="192" rx="34" fill="#181B22"/>
@@ -152,19 +165,35 @@ class Handler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        if self.path in ("/", ""):
-            self.path = "/dashboard.html"
+        if self.path in ("/", "", "/dashboard.html"):
+            return self._send(200, self._local_page(), "text/html; charset=utf-8")
         elif self.path == "/quotes":
             cache = cached_quotes()
             return self._send(200, json.dumps({
                 "quotes": cache["quotes"],
                 "asof": (cache["asof"] or time.time()) * 1000,
             }))
-        elif self.path == "/manifest.json":
+        elif self.path in ("/manifest.webmanifest", "/manifest.json"):
             return self._send(200, json.dumps(MANIFEST), "application/manifest+json")
+        elif self.path.lstrip("/") in ICON_FILES:
+            src = os.path.join(BASE, self.path.lstrip("/"))
+            if os.path.exists(src):
+                with open(src, "rb") as fh:
+                    return self._send(200, fh.read(), "image/png")
+            return self.send_error(404)
         elif self.path == "/icon.svg":
             return self._send(200, ICON, "image/svg+xml")
         return super().do_GET()
+
+    def _local_page(self):
+        """The built page, renamed for this machine."""
+        with open(os.path.join(OUTDIR, "dashboard.html")) as fh:
+            html = fh.read()
+        return html.replace(
+            '<meta name="apple-mobile-web-app-title" content="Daily update">',
+            f'<meta name="apple-mobile-web-app-title" content="{LOCAL_NAME}">'
+        ).replace("<title>VWRP Screener</title>",
+                  "<title>VWRP Screener (live)</title>")
 
     def do_POST(self):
         if self.path != "/refresh":

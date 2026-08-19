@@ -1,6 +1,6 @@
 {
- "name": "VWRP Stock Screener",
- "short_name": "Screener",
+ "name": "VWRP Daily Update",
+ "short_name": "Daily update",
  "id": "/vwrp-screener1/",
  "start_url": "/vwrp-screener1/",
  "scope": "/vwrp-screener1/",

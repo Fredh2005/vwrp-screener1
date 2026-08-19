@@ -817,7 +817,7 @@ DASHBOARD_TEMPLATE = r"""<!doctype html>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Screener">
+<meta name="apple-mobile-web-app-title" content="Daily update">
 <meta name="theme-color" content="#8A6A2F">
 <style>
 :root{
