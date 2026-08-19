@@ -6,7 +6,11 @@ on valuation, balance-sheet health, revenue growth and risk.
 ## Your web address
 
 **<http://localhost:8765>** on this Mac — always on, no command needed.
-**<http://192.168.1.116:8765>** from your phone or tablet on the same network.
+**<http://Freddies-MacBook-Air-8.local:8765>** from your phone or tablet on the
+same network. Use this rather than a numeric address — your router reassigns IPs
+by DHCP, so `192.168.x.x` addresses go stale, while the `.local` name follows the
+Mac. If a device cannot resolve `.local` (some Android builds), find the current
+address with `ipconfig getifaddr en0`.
 
 A launch agent (`com.vwrp.server`) starts the server at login and restarts it if
 it ever dies, so the address works whenever your Mac is awake. The page shows
