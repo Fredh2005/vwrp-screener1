@@ -58,6 +58,15 @@ jobs:
       - name: Run the screener
         run: python -W ignore screener.py --top 150 --refresh
 
+      - name: Fail if the dataset came back thin
+        run: |
+          N=$(python -c "import json;print(json.load(open('output/data.json'))['count'])")
+          echo "holdings in data.json: $N"
+          if [ "$N" -lt 300 ]; then
+            echo "::error::Only $N holdings in the dataset - not publishing."
+            exit 1
+          fi
+
       - name: Fail if the screen came back thin
         run: |
           # A silent half-empty page is worse than a visible red X.
@@ -74,6 +83,8 @@ jobs:
           mkdir -p site
           cp output/dashboard.html site/index.html
           cp output/vwrp_screen_*.xlsx site/ 2>/dev/null || true
+          # Machine-readable feed the geography site aggregates by country.
+          cp output/data.json site/data.json
           ls -la site/
 
       - uses: actions/upload-pages-artifact@v3

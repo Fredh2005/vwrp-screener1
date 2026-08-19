@@ -12,3 +12,4 @@ __pycache__/
 # only creates noise in the diff.
 output/dashboard.html
 output/artifact.html
+output/data.json

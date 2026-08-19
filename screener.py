@@ -762,6 +762,42 @@ def write_artifact(full_html, path):
         fh.write(body.strip() + "\n")
 
 
+DATASET_FIELDS = [
+    ("ticker", "ticker"), ("name", "name"), ("region", "region"),
+    ("sector", "sector"), ("currency", "currency"),
+    ("vanguard_weight", "vanguardWeight"), ("marketCap_usd", "marketCapUsd"),
+    ("trailingPE", "peTrailing"), ("forwardPE", "peForward"),
+    ("priceToBook", "priceToBook"), ("debtToEquity", "debtToEquity"),
+    ("rev_yoy_1", "revGrowth"), ("rev_cagr_3y", "revCagr"),
+    ("returnOnEquity", "roe"), ("profitMargins", "netMargin"),
+    ("return_1y_pct", "return1y"), ("volatility_1y_pct", "volatility1y"),
+    ("max_drawdown_1y_pct", "maxDrawdown1y"),
+    ("opportunity_score", "opportunity"), ("risk_score", "risk"),
+]
+
+
+def write_dataset(rows, path):
+    """Every scored holding, for other sites to aggregate."""
+    out = []
+    for r in rows:
+        rec = {}
+        for src, dst in DATASET_FIELDS:
+            v = r.get(src)
+            if isinstance(v, float):
+                v = round(v, 6)
+            rec[dst] = v
+        out.append(rec)
+    payload = {
+        "generated": datetime.now().strftime("%Y-%m-%d"),
+        "generatedUtc": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "count": len(out),
+        "source": "Yahoo Finance via vwrp-screener",
+        "holdings": out,
+    }
+    with open(path, "w") as fh:
+        json.dump(payload, fh, separators=(",", ":"))
+
+
 def write_dashboard(df, path, meta):
     records = json.loads(df.to_json(orient="records"))
     payload = json.dumps({"rows": records, "meta": meta})
@@ -1303,8 +1339,10 @@ def main():
         print("  failed: " + ", ".join(r["ticker"] for r in failed[:15]) +
               (" ..." if len(failed) > 15 else ""), file=sys.stderr)
 
-    price_risk = fetch_price_risk([r["ticker"] for r in top])
-    rows = build_rows(top, price_risk)
+    # Score every resolved holding, not just the ones we display: the geography
+    # page aggregates by country and needs the whole set to do that honestly.
+    price_risk = fetch_price_risk([r["ticker"] for r in ok])
+    rows = build_rows(ok, price_risk)
 
     total_mc = sum(r["marketCap_usd"] for r in rows)
     for i, r in enumerate(sorted(rows, key=lambda x: -x["marketCap_usd"]), start=1):
@@ -1331,7 +1369,12 @@ def main():
         print(f"Filters kept {len(rows)} of {before}", file=sys.stderr)
 
     rows.sort(key=lambda r: r["rank"])
-    df = to_dataframe(rows)
+
+    # Machine-readable output for every holding, before trimming to the display
+    # set. The geography site consumes this nightly.
+    write_dataset(rows, os.path.join(OUTDIR, "data.json"))
+
+    df = to_dataframe(rows[:args.top])
 
     stamp = datetime.now().strftime("%Y-%m-%d")
     xlsx = os.path.join(OUTDIR, f"vwrp_screen_{stamp}.xlsx")
@@ -1342,6 +1385,7 @@ def main():
     print(f"\nWrote {xlsx}")
     print(f"Wrote {html}")
     print(f"Wrote {os.path.join(OUTDIR, 'artifact.html')}")
+    print(f"Wrote {os.path.join(OUTDIR, 'data.json')} ({len(rows)} holdings)")
     return df
 
 
