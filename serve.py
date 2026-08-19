@@ -142,7 +142,13 @@ MANIFEST = {
     ],
 }
 
-ICON_FILES = ("apple-touch-icon.png", "icon-192.png", "icon-512.png")
+# Served under the plain names but taken from the local-* variants, so the
+# home-screen icon here reads SCREENER while the published one reads DAILY UPDATE.
+ICON_FILES = {
+    "apple-touch-icon.png": "local-apple-touch-icon.png",
+    "icon-192.png": "local-icon-192.png",
+    "icon-512.png": "local-icon-512.png",
+}
 
 ICON = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
 <rect width="192" height="192" rx="34" fill="#181B22"/>
@@ -176,7 +182,9 @@ class Handler(SimpleHTTPRequestHandler):
         elif self.path in ("/manifest.webmanifest", "/manifest.json"):
             return self._send(200, json.dumps(MANIFEST), "application/manifest+json")
         elif self.path.lstrip("/") in ICON_FILES:
-            src = os.path.join(BASE, self.path.lstrip("/"))
+            src = os.path.join(BASE, ICON_FILES[self.path.lstrip("/")])
+            if not os.path.exists(src):
+                src = os.path.join(BASE, self.path.lstrip("/"))
             if os.path.exists(src):
                 with open(src, "rb") as fh:
                     return self._send(200, fh.read(), "image/png")
