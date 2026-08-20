@@ -27,17 +27,28 @@ jobs:
       proceed: ${{ steps.check.outputs.proceed }}
     steps:
       - id: check
+        # Which cron is the 21:35 UK one depends on the season only. It must
+        # NOT be decided from the wall clock at run time: GitHub's scheduler
+        # routinely starts these an hour or more late, and an hour-window check
+        # then skips the real firing and reports success, freezing the page
+        # with no red X. Key off which cron fired instead - that is exact
+        # however late the run starts.
         run: |
-          UK_HOUR=$(TZ=Europe/London date +%H)
           echo "UK local time is now $(TZ=Europe/London date '+%Y-%m-%d %H:%M %Z')"
+          echo "Fired by cron: '${{ github.event.schedule }}'"
+          if [ "$(TZ=Europe/London date +%z)" = "+0100" ]; then
+            WANTED="35 20 * * *"   # BST: 20:35 UTC is 21:35 UK
+          else
+            WANTED="35 21 * * *"   # GMT: 21:35 UTC is 21:35 UK
+          fi
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "Manual run - proceeding."
             echo "proceed=true" >> "$GITHUB_OUTPUT"
-          elif [ "$UK_HOUR" = "21" ]; then
+          elif [ "${{ github.event.schedule }}" = "$WANTED" ]; then
             echo "This is the 21:35 UK firing - proceeding."
             echo "proceed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "Off-season firing (UK hour $UK_HOUR) - skipping."
+            echo "Off-season cron ('${{ github.event.schedule }}') - skipping."
             echo "proceed=false" >> "$GITHUB_OUTPUT"
           fi
 
