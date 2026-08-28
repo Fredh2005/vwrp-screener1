@@ -1,13 +1,29 @@
 name: Refresh screener and publish
 
-# GitHub's scheduler only understands UTC and ignores daylight saving, so a
-# single cron drifts by an hour when the UK clocks change. Instead we fire at
-# BOTH candidate times and let the guard job below drop the wrong one, which
-# keeps the real run at 21:35 UK all year with no seasonal edit.
+# GitHub's scheduler is best-effort. It routinely starts crons an hour or more
+# late on this account, and on 26-27 Aug 2026 it dropped roughly 44 hours of
+# firings across every repo here - no runs, no failures, just silence, and the
+# daily update sat unchanged for two days.
+#
+# So this workflow no longer depends on any single firing. Several crons fire
+# through the night and each run asks one question: has the live site already
+# published for this cycle? If it has, the run stops at the guard. If it has
+# not, it builds. A dropped cron therefore costs a later update, not a lost one.
+#
+# The guard reads the wall clock, which the previous design deliberately did
+# not. The distinction matters: the old guard asked "which cron slot am I in?",
+# which a delayed run answers WRONGLY and then skips the real firing while
+# reporting success. This one asks "has tonight's cycle published yet?" - a
+# question a delayed run still answers correctly. That also removes the
+# BST/GMT cron pairing entirely.
 on:
   schedule:
-    - cron: "35 20 * * *"   # 21:35 UK during British Summer Time
-    - cron: "35 21 * * *"   # 21:35 UK during GMT
+    - cron: "35 20 * * *"   # 21:35 UK in BST - the on-time slot
+    - cron: "45 21 * * *"   # 21:45 UK in GMT - the on-time slot
+    - cron: "55 22 * * *"   # catch-up
+    - cron: "5 0 * * *"     # catch-up
+    - cron: "15 2 * * *"    # catch-up
+    - cron: "25 4 * * *"    # catch-up
   workflow_dispatch:        # manual "Run workflow" button, always proceeds
 
 permissions:
@@ -20,36 +36,62 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Decide whether this particular firing is the 21:35 UK one.
   guard:
     runs-on: ubuntu-latest
     outputs:
       proceed: ${{ steps.check.outputs.proceed }}
     steps:
       - id: check
-        # Which cron is the 21:35 UK one depends on the season only. It must
-        # NOT be decided from the wall clock at run time: GitHub's scheduler
-        # routinely starts these an hour or more late, and an hour-window check
-        # then skips the real firing and reports success, freezing the page
-        # with no red X. Key off which cron fired instead - that is exact
-        # however late the run starts.
+        env:
+          SITE: https://fredh2005.github.io/vwrp-screener1/
         run: |
-          echo "UK local time is now $(TZ=Europe/London date '+%Y-%m-%d %H:%M %Z')"
-          echo "Fired by cron: '${{ github.event.schedule }}'"
-          if [ "$(TZ=Europe/London date +%z)" = "+0100" ]; then
-            WANTED="35 20 * * *"   # BST: 20:35 UTC is 21:35 UK
-          else
-            WANTED="35 21 * * *"   # GMT: 21:35 UTC is 21:35 UK
-          fi
+          set -uo pipefail
+
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "Manual run - proceeding."
             echo "proceed=true" >> "$GITHUB_OUTPUT"
-          elif [ "${{ github.event.schedule }}" = "$WANTED" ]; then
-            echo "This is the 21:35 UK firing - proceeding."
-            echo "proceed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          NOW=$(date +%s)
+          UK_H=$(TZ=Europe/London date +%-H)
+
+          # The cycle starts at 21:35 UK and can legitimately finish after
+          # midnight, so before 08:00 UK we are still working on last night's.
+          if [ "$UK_H" -lt 8 ]; then
+            CYCLE=$(TZ=Europe/London date -d 'yesterday' +%F)
           else
-            echo "Off-season cron ('${{ github.event.schedule }}') - skipping."
+            CYCLE=$(TZ=Europe/London date +%F)
+          fi
+          echo "UK now: $(TZ=Europe/London date '+%F %H:%M %Z')  cycle=$CYCLE"
+
+          # Never publish early: in GMT the first slot lands at 20:35 UK.
+          TARGET=$(TZ=Europe/London date -d "$CYCLE 21:35" +%s)
+          if [ "$NOW" -lt "$TARGET" ]; then
+            echo "Before 21:35 UK - too early. A later slot will pick this up."
             echo "proceed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Anything published after 21:00 UK on the cycle date is this cycle's.
+          WINDOW=$(TZ=Europe/London date -d "$CYCLE 21:00" +%s)
+
+          LM=$(curl -sSI --max-time 30 "$SITE" | tr -d '\r' \
+               | awk -F': ' 'tolower($1)=="last-modified"{print $2}') || LM=""
+          if [ -z "$LM" ]; then
+            echo "No Last-Modified from $SITE - building rather than risk a missed night."
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          PUB=$(date -d "$LM" +%s) || PUB=0
+          echo "Live site last published: $LM"
+          if [ "$PUB" -ge "$WINDOW" ]; then
+            echo "Already published for the $CYCLE cycle - nothing to do."
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Nothing published since $CYCLE 21:00 UK - building."
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
           fi
 
   build:
