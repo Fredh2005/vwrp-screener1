@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """Map Vanguard's holdings export to Yahoo Finance tickers."""
+import os
 import pandas as pd, re, sys
 
-SRC = "/Users/freddiehewer/Desktop/Holdings details - Vanguard FTSE All-World UCITS ETF (USD) Accumulating - 18_08_2026.xlsx"
+import sys as _sys
+# Vanguard's export, given on the command line:  python map_holdings.py <file.xlsx>
+if len(_sys.argv) < 2 or not _sys.argv[1].lower().endswith((".xlsx", ".xls")):
+    _sys.exit("usage: python map_holdings.py <Vanguard holdings export.xlsx>")
+SRC = _sys.argv[1]
 
 # Vanguard region code -> Yahoo exchange suffix
 SUFFIX = {
@@ -28,7 +33,7 @@ OVERRIDES = {
  "ASSAB.ST":"ASSA-B.ST","SWEDA.ST":"SWED-A.ST","SEBA.ST":"SEB-A.ST",
  "NDA.HE":"NDA-FI.HE","DBS.SI":"D05.SI","OCBC.SI":"O39.SI","UOB.SI":"U11.SI",
  "HDFCB.NS":"HDFCBANK.NS","ICICIBC.NS":"ICICIBANK.NS","BHARTI.NS":"BHARTIARTL.NS",
- "INFO.NS":"INFY.NS","BAF.NS":"BAJFINANCE.NS","MM.NS":"M&M.NS",
+ "INFO.NS":"INFY.NS","BAF.NS":"BAJFINANCE.NS","MM.NS":"M&M.NS","AXSB.NS":"AXISBANK.NS",
  "RJHI.SR":"1120.SR","ARAMCO.SR":"2222.SR","SNB.SR":"1180.SR",
  "285.T":"285A.T","AIRB.PA":"AI.PA",
 }
@@ -88,9 +93,32 @@ def main():
     print(f"mapped to tickers: {len(out)}")
     print(f"unmapped         : {sum(skipped.values())}  {skipped}")
     print(f"weight mapped    : {out['wt'].sum():.1f}% of fund")
-    out.to_csv("/tmp/mapped.csv", index=False)
-    print("\ntop 12 mapped:")
-    print(out.head(12)[["ticker", "region", "wt", "name"]].to_string(index=False))
+    # Trim to the holdings that could plausibly reach the top 150 within a year.
+    # Below that a holding needs 5x-35x growth, so fetching it nightly buys
+    # nothing but build time.
+    CUTOFF_MULTIPLE = 4
+    out = out.sort_values("wt", ascending=False).reset_index(drop=True)
+    cut = float(out.iloc[149]["wt"]) if len(out) > 150 else 0.0
+    thresh = cut / CUTOFF_MULTIPLE
+    keep = out[out["wt"] >= thresh] if thresh > 0 else out
+
+    head = pd.read_excel(SRC, header=None, nrows=6)
+    as_of = next((str(v).replace("As at", "").strip() for v in head.values.ravel()
+                  if str(v).lower().startswith("as at")), "unknown date")
+
+    out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "holdings.csv")
+    with open(out_path, "w") as fh:
+        fh.write(f"# VWRP holdings from Vanguard's export, data as at {as_of}.\n")
+        fh.write(f"# Trimmed to the {len(keep)} holdings that could plausibly reach the "
+                 f"top 150 within a year:\n")
+        fh.write(f"# the 150th carries {cut:.4f}%, everything here is above {thresh:.4f}% "
+                 f"(a {CUTOFF_MULTIPLE}x move). {keep['wt'].sum():.1f}% of the fund.\n")
+        fh.write("#\n# vanguard_weight is the fund's REAL published weight, not an estimate.\n")
+        fh.write("ticker,region,vanguard_weight,name\n")
+        for _, r in keep.iterrows():
+            nm = str(r["name"]).replace(",", " ").replace('"', "")[:48]
+            fh.write(f"{r['ticker']},{r['region']},{r['wt']:.6f},{nm}\n")
+    print(f"holdings.csv     : {len(keep)} kept ({keep['wt'].sum():.1f}% of fund), as at {as_of}")
 
 
 if __name__ == "__main__":
